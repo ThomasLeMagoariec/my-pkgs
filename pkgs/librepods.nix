@@ -4,6 +4,8 @@
     fetchFromGitHub,
     makeDesktopItem,
     cmake,
+	pkg-config,
+	libpulseaudio,
     qt6,
 }:
 let
@@ -20,10 +22,10 @@ stdenv.mkDerivation {
     version = "v0.1.0-rc.4";
 
     src = fetchFromGitHub {
-        owner = "kavishdevar";
+        owner = "librepods-org";
         repo = "librepods";
-        rev = "v0.1.0-rc.4";
-        sha256 = "0yzdb55gkghg6s1yyq7y50l3x6iwz6vvv690g1lniiqgf51xhw0n";
+        rev = "v1.0.0-rc1";
+        sha256 = "0hii63csiqaqpx2ydb1i4c25jvbgihg6w4q7fan0qbmhfzrmflj3";
 
     };
 
@@ -31,10 +33,13 @@ stdenv.mkDerivation {
 
     buildInputs = [
         cmake
+		pkg-config
+		libpulseaudio
         qt6.wrapQtAppsHook
         qt6.qtbase 
         qt6.qtdeclarative 
         qt6.qtconnectivity
+		qt6.qttools
     ];
 
     installPhase = ''
@@ -47,7 +52,7 @@ stdenv.mkDerivation {
         make
 
         mkdir -p $out/bin
-        install -Dm755 applinux $out/bin/librepods
+        install -Dm755 librepods $out/bin/librepods
 
         mkdir -p $out/share/applications
         cp ${desktopItem}/share/applications/*.desktop \
